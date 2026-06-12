@@ -40,6 +40,10 @@ META_PEC = 171  # 1/3 da Câmara — mínimo constitucional para protocolar uma 
 COD_INFOLEG = "CD268562833200"
 LINK_APOIAMENTO = "https://applinks.camara.leg.br/iit6MXhrRcwV"
 
+ZANATTA_ID = 220559
+ZANATTA_FOTO = f"https://www.camara.leg.br/internet/deputado/bandep/{ZANATTA_ID}.jpg"
+ZANATTA_BIO = f"https://www.camara.leg.br/deputados/{ZANATTA_ID}/biografia"
+
 MENSAGEM_MOBILIZACAO = """🚨 PEC DO HOMESCHOOLING 📖
 
 Nobres colegas,
@@ -114,6 +118,35 @@ code, pre, .stCode { font-family: 'JetBrains Mono', monospace !important; }
     transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 .hero-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(0,0,0,0.25); }
+
+.hero-flex { display: flex; align-items: center; gap: 2rem; position: relative; z-index: 1; }
+.hero-text { flex: 1; min-width: 0; }
+.hero-autora {
+    flex-shrink: 0;
+    text-align: center;
+}
+.hero-autora img {
+    width: 130px; height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: top;
+    border: 3px solid #f4c454;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+    display: block;
+    margin: 0 auto 0.5rem auto;
+}
+.hero-autora .autora-nome {
+    font-size: 0.88rem; font-weight: 700; color: white; line-height: 1.25;
+}
+.hero-autora .autora-cargo {
+    font-size: 0.72rem; color: #f4c454; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.15rem;
+}
+.hero-autora a { text-decoration: none; }
+@media (max-width: 740px) {
+    .hero-flex { flex-direction: column-reverse; gap: 1.2rem; }
+    .hero-autora img { width: 105px; height: 105px; }
+}
 
 .kpi-card {
     background: white; border: 1px solid #e6ece8;
@@ -650,6 +683,9 @@ df_bancada     = build_df_bancada(deps, df_assinou)
 
 total_api     = len(deps)
 assinou_n     = int(df_assinou.shape[0])
+
+# Foto oficial da autora: prioriza a URL retornada pela própria API
+zanatta_foto = next((d.urlFoto for d in deps if d.id == ZANATTA_ID and d.urlFoto), ZANATTA_FOTO)
 nao_assinou_n = total_api - assinou_n
 faltam        = max(0, META_PEC - assinou_n)
 pct_meta      = (assinou_n / META_PEC * 100) if META_PEC > 0 else 0
@@ -662,20 +698,31 @@ partidos_rep  = int(df_assinou["Partido"].nunique()) if not df_assinou.empty els
 
 st.markdown(f"""
 <div class="hero-header">
-    <div class="hero-badge">🚨 EM COLETA DE ASSINATURAS</div>
-    <h1>📖 PEC do Homeschooling</h1>
-    <p>
-        <strong>Reconhecimento constitucional do ensino domiciliar</strong> como modalidade legítima
-        de cumprimento do dever educacional familiar &nbsp;·&nbsp; Autoria: Dep. Júlia Zanatta (PL/SC)
-    </p>
-    <p style="margin-top:0.5rem;opacity:0.75;font-size:0.84rem;">
-        Para ser protocolada, a PEC precisa da assinatura de <strong>171 deputados federais</strong> (1/3 da Câmara).
-        Acompanhe abaixo quem já assinou — e ajude a mobilizar quem ainda falta.
-    </p>
-    <a class="hero-cta" href="{LINK_APOIAMENTO}" target="_blank">✍️ Deputado(a): assine a PEC aqui</a>
-    <p style="margin-top:0.6rem;opacity:0.65;font-size:0.78rem;">
-        Código Infoleg: {COD_INFOLEG} &nbsp;·&nbsp; Dados da Câmara: {fetch_ts}
-    </p>
+    <div class="hero-flex">
+        <div class="hero-text">
+            <div class="hero-badge">🚨 EM COLETA DE ASSINATURAS</div>
+            <h1>📖 PEC do Homeschooling</h1>
+            <p>
+                <strong>Reconhecimento constitucional do ensino domiciliar</strong> como modalidade legítima
+                de cumprimento do dever educacional familiar
+            </p>
+            <p style="margin-top:0.5rem;opacity:0.75;font-size:0.84rem;">
+                Para ser protocolada, a PEC precisa da assinatura de <strong>171 deputados federais</strong> (1/3 da Câmara).
+                Acompanhe abaixo quem já assinou — e ajude a mobilizar quem ainda falta.
+            </p>
+            <a class="hero-cta" href="{LINK_APOIAMENTO}" target="_blank">✍️ Deputado(a): assine a PEC aqui</a>
+            <p style="margin-top:0.6rem;opacity:0.65;font-size:0.78rem;">
+                Código Infoleg: {COD_INFOLEG} &nbsp;·&nbsp; Dados da Câmara: {fetch_ts}
+            </p>
+        </div>
+        <div class="hero-autora">
+            <a href="{ZANATTA_BIO}" target="_blank" title="Ver biografia oficial na Câmara dos Deputados">
+                <img src="{zanatta_foto}" alt="Deputada Federal Júlia Zanatta">
+                <div class="autora-nome">Dep. Júlia Zanatta<br>(PL/SC)</div>
+                <div class="autora-cargo">Autora da PEC</div>
+            </a>
+        </div>
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
