@@ -262,23 +262,33 @@ STOPWORDS_LINHAS = {
 }
 
 ASSINANTES_RAW_DEFAULT = """Julia Zanatta
-Franciane Bayer
+Adilson Barroso
+Alberto Fraga
+Alfredo Gaspar
+Cabo Gilberto Silva
+Carla Dickson
+Caroline de Toni
 Carlos Jordy
-Lincoln Portela
-Marcelo Moraes
-Eros Biondini
-Marcelo Álvaro Antônio
-Sargento Gonçalves
-Sóstenes Cavalcante
-Rodolfo Nogueira
+Coronel Meira
+Delegado Paulo Bilynskyj
+Diego Garcia
 Dilceu Sperafico
+Eros Biondini
+Filipe Martins
+Franciane Bayer
 General Girão
 Itamar Paim
-Rodrigo da Zaeli
+Kim Kataguiri
+Lincoln Portela
+Marcelo Álvaro Antônio
+Marcelo Moraes
+Marcos Pollon
+Messias Donato
 Pastor Eurico
-Diego Garcia
-Caroline de Toni
-Cabo Gilberto Silva
+Rodolfo Nogueira
+Rodrigo da Zaeli
+Sargento Gonçalves
+Sóstenes Cavalcante
 """
 
 PREFIX_STRIP_RE = re.compile(
