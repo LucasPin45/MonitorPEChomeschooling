@@ -294,6 +294,9 @@ Capitão Alden
 Sargento Fahur
 Missionário José Olimpio
 Clarissa Tércio
+Vinicius Carvalho
+Dr. Luiz Ovando
+Bibo Nunes
 
 
 """
